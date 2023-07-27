@@ -3,6 +3,7 @@ package com.example.audioplayer;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -58,7 +59,11 @@ public class MainActivity extends AppCompatActivity {
             return fragments.size();
         }
 
-
-
+//        Press ⌘ + N and choose Override Methods. Type getPageTitle and press enter.
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles.get(position);
+        }
     }
 }
