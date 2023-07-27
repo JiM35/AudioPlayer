@@ -17,7 +17,8 @@
         app:tabTextColor="@color/colorAccent"
         android:contentDescription="@string/tablayout_for_displaying_tabs"
         app:tabIndicatorHeight="40dp"
-        app:tabIndicatorColor="#009688">
+        app:tabIndicatorColor="#009688"
+        app:tabIndicator="@drawable/tab_indicator">
 
     </com.google.android.material.tabs.TabLayout>
 
