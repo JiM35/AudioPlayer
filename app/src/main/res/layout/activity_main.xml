@@ -15,7 +15,9 @@
         app:tabIndicatorFullWidth="true"
         app:tabIndicatorGravity="center"
         app:tabTextColor="@color/colorAccent"
-        android:contentDescription="@string/tablayout_for_displaying_tabs">
+        android:contentDescription="@string/tablayout_for_displaying_tabs"
+        app:tabIndicatorHeight="40dp"
+        app:tabIndicatorColor="#009688">
 
     </com.google.android.material.tabs.TabLayout>
 
