@@ -32,6 +32,24 @@ public class PlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_player);
         initViews();
         getIntentMethod();
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (mediaPlayer != null && fromUser) {
+                    mediaPlayer.seekTo(progress * 1000);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     private void getIntentMethod() {
@@ -50,6 +68,7 @@ public class PlayerActivity extends AppCompatActivity {
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             mediaPlayer.start();
         }
+        seekBar.setMax(mediaPlayer.getDuration() / 1000);
     }
 
     private void initViews() {
