@@ -227,7 +227,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
 
     private void playPauseBtnClicked() {
         if (mediaPlayer.isPlaying()) {
-            playPauseBtn.setBackgroundResource(R.drawable.ic_play);
+            playPauseBtn.setImageResource(R.drawable.ic_play);
             mediaPlayer.pause();
             seekBar.setMax(mediaPlayer.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
@@ -241,7 +241,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                 }
             });
         } else {
-            playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
+            playPauseBtn.setImageResource(R.drawable.ic_pause);
             mediaPlayer.start();
             seekBar.setMax(mediaPlayer.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
