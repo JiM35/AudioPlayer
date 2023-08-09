@@ -28,7 +28,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class PlayerActivity extends AppCompatActivity {
+public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
     TextView song_name, artist_name, duration_played, duration_total;
     ImageView cover_art, nextBtn, prevBtn, backBtn, shuffleBtn, repeatBtn;
@@ -49,6 +49,7 @@ public class PlayerActivity extends AppCompatActivity {
         getIntentMethod();
         song_name.setText(listOfSongs.get(position).getTitle());
         artist_name.setText(listOfSongs.get(position).getArtist());
+        mediaPlayer.setOnCompletionListener(this);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -123,6 +124,7 @@ public class PlayerActivity extends AppCompatActivity {
                     handler.postDelayed(this, 1000);
                 }
             });
+            mediaPlayer.setOnCompletionListener(this);
             playPauseBtn.setImageResource(R.drawable.ic_pause);
             mediaPlayer.start();
         } else {
@@ -145,6 +147,7 @@ public class PlayerActivity extends AppCompatActivity {
                     handler.postDelayed(this, 1000);
                 }
             });
+            mediaPlayer.setOnCompletionListener(this);
             playPauseBtn.setImageResource(R.drawable.ic_play);
         }
     }
@@ -182,6 +185,7 @@ public class PlayerActivity extends AppCompatActivity {
                     handler.postDelayed(this, 1000);
                 }
             });
+            mediaPlayer.setOnCompletionListener(this);
             playPauseBtn.setImageResource(R.drawable.ic_pause);
             mediaPlayer.start();
         } else {
@@ -204,6 +208,7 @@ public class PlayerActivity extends AppCompatActivity {
                     handler.postDelayed(this, 1000);
                 }
             });
+            mediaPlayer.setOnCompletionListener(this);
             playPauseBtn.setImageResource(R.drawable.ic_play);
         }
     }
@@ -394,5 +399,15 @@ public class PlayerActivity extends AppCompatActivity {
             }
         });
         imageView.startAnimation(animFadeOut);
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        nextBtnClicked();
+        if (mediaPlayer != null) {
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
+            mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(this);
+        }
     }
 }
