@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -15,6 +16,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -304,9 +307,9 @@ public class PlayerActivity extends AppCompatActivity {
         int durationTotal = Integer.parseInt(listOfSongs.get(position).getDuration()) / 1000;
         duration_total.setText(formattedTime(durationTotal));
         byte[] art = retriever.getEmbeddedPicture();
-        Bitmap bitmap;
+        Bitmap bitmap = null;
         if (art != null) {
-            Glide.with(this).asBitmap().load(art).into(cover_art);
+            ImageAnimation(this, cover_art, bitmap);
             bitmap = BitmapFactory.decodeByteArray(art, 0, art.length);
             Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                 @Override
@@ -352,5 +355,44 @@ public class PlayerActivity extends AppCompatActivity {
             song_name.setTextColor(Color.WHITE);
             artist_name.setTextColor(Color.DKGRAY);
         }
+    }
+
+    public void ImageAnimation(Context context, ImageView imageView, Bitmap bitmap) {
+        Animation animFadeOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
+        Animation animFadeIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+        animFadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Glide.with(context).load(bitmap).into(imageView);
+                animFadeIn.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                imageView.startAnimation(animFadeIn);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        imageView.startAnimation(animFadeOut);
     }
 }
