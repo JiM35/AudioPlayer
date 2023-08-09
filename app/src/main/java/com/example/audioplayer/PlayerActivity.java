@@ -125,7 +125,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                 }
             });
             mediaPlayer.setOnCompletionListener(this);
-            playPauseBtn.setImageResource(R.drawable.ic_pause);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
             mediaPlayer.start();
         } else {
             mediaPlayer.stop();
@@ -148,7 +148,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                 }
             });
             mediaPlayer.setOnCompletionListener(this);
-            playPauseBtn.setImageResource(R.drawable.ic_play);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_play);
         }
     }
 
@@ -186,7 +186,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                 }
             });
             mediaPlayer.setOnCompletionListener(this);
-            playPauseBtn.setImageResource(R.drawable.ic_pause);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
             mediaPlayer.start();
         } else {
             mediaPlayer.stop();
@@ -209,7 +209,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                 }
             });
             mediaPlayer.setOnCompletionListener(this);
-            playPauseBtn.setImageResource(R.drawable.ic_play);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_play);
         }
     }
 
@@ -227,7 +227,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
 
     private void playPauseBtnClicked() {
         if (mediaPlayer.isPlaying()) {
-            playPauseBtn.setImageResource(R.drawable.ic_play);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_play);
             mediaPlayer.pause();
             seekBar.setMax(mediaPlayer.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
@@ -241,7 +241,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                 }
             });
         } else {
-            playPauseBtn.setImageResource(R.drawable.ic_pause);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
             mediaPlayer.start();
             seekBar.setMax(mediaPlayer.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
