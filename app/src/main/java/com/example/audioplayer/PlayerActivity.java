@@ -307,10 +307,10 @@ public class PlayerActivity extends AppCompatActivity {
         int durationTotal = Integer.parseInt(listOfSongs.get(position).getDuration()) / 1000;
         duration_total.setText(formattedTime(durationTotal));
         byte[] art = retriever.getEmbeddedPicture();
-        Bitmap bitmap = null;
+        Bitmap bitmap;
         if (art != null) {
-            ImageAnimation(this, cover_art, bitmap);
             bitmap = BitmapFactory.decodeByteArray(art, 0, art.length);
+            ImageAnimation(this, cover_art, bitmap);
             Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(@Nullable Palette palette) {
