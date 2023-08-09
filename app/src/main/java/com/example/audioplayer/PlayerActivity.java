@@ -4,6 +4,7 @@ import static com.example.audioplayer.MainActivity.musicFiles;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ public class PlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_player);
         initViews();
         getIntentMethod();
+        song_name.setText(listOfSongs.get(position).getTitle());
+        artist_name.setText(listOfSongs.get(position).getArtist());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -96,6 +100,7 @@ public class PlayerActivity extends AppCompatActivity {
             mediaPlayer.start();
         }
         seekBar.setMax(mediaPlayer.getDuration() / 1000);
+        metaData(uri);
     }
 
     private void initViews() {
@@ -111,5 +116,18 @@ public class PlayerActivity extends AppCompatActivity {
         repeatBtn = findViewById(R.id.id_repeat);
         playPauseBtn = findViewById(R.id.play_pause);
         seekBar = findViewById(R.id.seekBar);
+    }
+
+    private void metaData (Uri uri) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(uri.toString());
+        int durationTotal = Integer.parseInt(listOfSongs.get(position).getDuration()) / 1000;
+        duration_total.setText(formattedTime(durationTotal));
+        byte[] art = retriever.getEmbeddedPicture();
+        if (art != null) {
+            Glide.with(this).asBitmap().load(art).into(cover_art);
+        } else {
+            Glide.with(this).asBitmap().load(R.drawable.bewedoc).into(cover_art);
+        }
     }
 }
