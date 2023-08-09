@@ -79,14 +79,93 @@ public class PlayerActivity extends AppCompatActivity {
         super.onResume();
     }
 
+//    Code similar to nextThreadBtn and playThreadBtn methods.
     private void previousThreadBtn() {
 
+        previousThread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                prevBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        previousBtnClicked();
+                    }
+                });
+            }
+        };
+        previousThread.start();
     }
 
+    private void previousBtnClicked() {
+
+    }
+
+    //    Code similar to previousThreadBtn and playThreadBtn methods.
     private void nextThreadBtn() {
-        
+        nextThread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                nextBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        nextBtnClicked();
+                    }
+                });
+            }
+        };
+        nextThread.start();
     }
 
+    private void nextBtnClicked() {
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            position = ((position + 1) % listOfSongs.size());
+            uri = Uri.parse(listOfSongs.get(position).getPath());
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
+            metaData(uri);
+            song_name.setText(listOfSongs.get(position).getTitle());
+            artist_name.setText(listOfSongs.get(position).getArtist());
+            seekBar.setMax(mediaPlayer.getDuration() / 1000);
+            PlayerActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mediaPlayer != null) {
+                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                        seekBar.setProgress(mCurrentPosition);
+                    }
+                    handler.postDelayed(this, 1000);
+                }
+            });
+            playPauseBtn.setImageResource(R.drawable.ic_pause);
+            mediaPlayer.start();
+        } else {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            position = ((position +1) % listOfSongs.size());
+            uri = Uri.parse(listOfSongs.get(position).getPath());
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
+            metaData(uri);
+            song_name.setText(listOfSongs.get(position).getTitle());
+            artist_name.setText(listOfSongs.get(position).getArtist());
+            seekBar.setMax(mediaPlayer.getDuration() / 1000);
+            PlayerActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mediaPlayer != null) {
+                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                        seekBar.setProgress(mCurrentPosition);
+                    }
+                    handler.postDelayed(this, 1000);
+                }
+            });
+            playPauseBtn.setImageResource(R.drawable.ic_play);
+        }
+    }
+
+    //    Code similar to previousThreadBtn and nextThreadBtn methods.
     private void playThreadBtn() {
         playThread = new Thread() {
             @Override
