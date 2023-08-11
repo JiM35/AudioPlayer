@@ -1,6 +1,8 @@
 package com.example.audioplayer;
 
 import static com.example.audioplayer.MainActivity.musicFiles;
+import static com.example.audioplayer.MainActivity.repeatBoolean;
+import static com.example.audioplayer.MainActivity.shuffleBoolean;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -27,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
@@ -77,6 +81,30 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                     duration_played.setText(formattedTime(mCurrentPosition));
                 }
                 handler.postDelayed(this, 1000);
+            }
+        });
+        shuffleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {  // In onClick method check if shuffle button is on.
+                if (shuffleBoolean) {
+                    shuffleBoolean = false;
+                    shuffleBtn.setImageResource(R.drawable.ic_shuffle_off);
+                } else {
+                    shuffleBoolean = true;
+                    shuffleBtn.setImageResource(R.drawable.ic_shuffle_on);
+                }
+            }
+        });
+        repeatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (repeatBoolean) {
+                    repeatBoolean = false;
+                    repeatBtn.setImageResource(R.drawable.ic_repeat_off);
+                } else {
+                    repeatBoolean = true;
+                    repeatBtn.setImageResource(R.drawable.ic_repeat_on);
+                }
             }
         });
     }
@@ -168,7 +196,11 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
-            position = ((position + 1) % listOfSongs.size());
+            if (shuffleBoolean && !repeatBoolean) { // If shuffle button is on and repeat button is off
+                position = getRandom(listOfSongs.size() - 1);
+            } else if (!shuffleBoolean && !repeatBoolean) {  // Shuffle is off and repeat is also off.
+                position = ((position + 1) % listOfSongs.size());  // If this condition will be holding, then we use the same logic as before for incrementing the position by 1.
+            }  // If both of the conditions will be false, it means the repeat button is on, so we are not going to change the position value, we are leaving it as it is.
             uri = Uri.parse(listOfSongs.get(position).getPath());
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -191,7 +223,11 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         } else {
             mediaPlayer.stop();
             mediaPlayer.release();
-            position = ((position +1) % listOfSongs.size());
+            if (shuffleBoolean && !repeatBoolean) { // If shuffle button is on and repeat button is off
+                position = getRandom(listOfSongs.size() - 1);
+            } else if (!shuffleBoolean && !repeatBoolean) {  // Shuffle is off and repeat is also off.
+                position = ((position + 1) % listOfSongs.size());  // If this condition will be holding, then we use the same logic as before for incrementing the position by 1.
+            }  // If both of the conditions will be false, it means the repeat button is on, so we are not going to change the position value, we are leaving it as it is.
             uri = Uri.parse(listOfSongs.get(position).getPath());
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -211,6 +247,11 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             mediaPlayer.setOnCompletionListener(this);
             playPauseBtn.setBackgroundResource(R.drawable.ic_play);
         }
+    }
+
+    private int getRandom(int i) {
+        Random random = new Random();
+        return random.nextInt(i + 1);  // Means it will generate random numbers between 0 and listOfSongs.size() - 1.
     }
 
     //    Code similar to previousThreadBtn and nextThreadBtn methods.

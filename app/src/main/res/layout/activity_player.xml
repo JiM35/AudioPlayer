@@ -111,7 +111,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:id="@+id/id_shuffle"
-            android:src="@drawable/ic_shuffle_off"
+            android:src="@drawable/ic_shuffle_on"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
             android:layout_marginStart="32dp" />
