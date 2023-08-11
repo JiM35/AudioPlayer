@@ -135,7 +135,11 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
-            position = ((position - 1) < 0 ? (listOfSongs.size() - 1) : (position - 1));
+            if (shuffleBoolean && !repeatBoolean) { // If shuffle button is on and repeat button is off
+                position = getRandom(listOfSongs.size() - 1);
+            } else if (!shuffleBoolean && !repeatBoolean) {  // Shuffle is off and repeat is also off.
+                position = ((position - 1) < 0 ? (listOfSongs.size() - 1) : (position - 1));  // If this condition will be holding, then we use the same logic as before for incrementing the position by 1.
+            }  // If both of the conditions will be false, it means the repeat button is on, so we are not going to change the position value, we are leaving it as it is.
             uri = Uri.parse(listOfSongs.get(position).getPath());
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -158,7 +162,11 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         } else {
             mediaPlayer.stop();
             mediaPlayer.release();
-            position = ((position - 1) < 0 ? (listOfSongs.size() - 1) : (position - 1));
+            if (shuffleBoolean && !repeatBoolean) { // If shuffle button is on and repeat button is off
+                position = getRandom(listOfSongs.size() - 1);
+            } else if (!shuffleBoolean && !repeatBoolean) {  // Shuffle is off and repeat is also off.
+                position = ((position - 1) < 0 ? (listOfSongs.size() - 1) : (position - 1));  // If this condition will be holding, then we use the same logic as before for incrementing the position by 1.
+            }  // If both of the conditions will be false, it means the repeat button is on, so we are not going to change the position value, we are leaving it as it is.
             uri = Uri.parse(listOfSongs.get(position).getPath());
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
