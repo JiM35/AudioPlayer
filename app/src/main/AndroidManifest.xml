@@ -18,9 +18,11 @@
         android:theme="@style/Theme.AudioPlayer"
         tools:targetApi="31">
         <activity
-            android:name=".PlayerActivity"
+            android:name=".AlbumDetails"
             android:exported="false" />
-        <!-- Add the launch activity here -->
+        <activity
+            android:name=".PlayerActivity"
+            android:exported="false" /> <!-- Add the launch activity here -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
